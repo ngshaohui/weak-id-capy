@@ -1,27 +1,13 @@
-# Django with Nginx
+# Capybara redemption
 
-This is a template for running Django with Nginx.
+## Task
 
-It utilizes Supervisor and Gunicorn to serve the Django application.
+Find out how many capybaras are still available for redemption.
 
-## Building and running
+## Detering manual checks
 
-```bash
-docker build --rm -f Dockerfile -t practical:latest .
-docker run --name practical --rm -p 29125:80 practical:latest
-```
+Use JS to add an artificial setTimeout counter of 2s
 
-## Supervisor
+## Hard mode
 
-For stacks involving a single Django application, Supervisor is not needed and Gunicorn can be run directly in the entrypoint.
-
-```bash
-gunicorn --workers 2 --bind 127.0.0.1:10003 mysite.wsgi:application
-```
-
-However, the intention for this app stack was to host multiple Django applications, so Supervisor would be used to manage them all in `gunicorn.conf`.
-
-## TODOs
-
-- move python dependencies to a separate file like `requirements.txt` instead of having it in the Dockerfile
-- use a non-root user for Docker container
+Randomly put 0 width characters between letters of a word to make it impossible to grep

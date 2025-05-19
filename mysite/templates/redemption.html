@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Redemption</title>
+  </head>
+
+  <body>
+    <div id="loading">Checking redeption status, please hold 3s</div>
+    <section>{% block content %} {% endblock %}</section>
+    <script>
+      let countdown = 2;
+      const loadingElement = document.getElementById("loading");
+      document.querySelector("section").style.display = "none";
+
+      const interval = setInterval(() => {
+        if (countdown > 0) {
+          loadingElement.textContent =
+            "Checking redeption status, please hold " + countdown + "s";
+        } else {
+          loadingElement.style.display = "none";
+          document.querySelector("section").style.display = "block";
+        }
+        countdown--;
+      }, 1000);
+    </script>
+  </body>
+</html>

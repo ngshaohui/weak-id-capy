@@ -1,16 +1,7 @@
-<!doctype html>
-<html lang="en-US">
+{% extends "redemption.html" %} {% block content %}
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Redemption</title>
-</head>
+<h1>This capybara has already been redeemed</h1>
+<p>Serial number {{ serial }}</p>
+<p>{{ nonce | safe }}</p>
 
-<body>
-    <h1>This capybara has already been redeemed</h1>
-    <p>Serial number {{ serial }}</p>
-    <p>{{ nonce | safe }}</p>
-</body>
-
-</html>
+{% endblock %}

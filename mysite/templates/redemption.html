@@ -7,23 +7,65 @@
   </head>
 
   <body>
-    <div id="loading">Checking redeption status, please hold 3s</div>
+    <div id="loading">Checking redemption status, please hold 3s</div>
     <section>{% block content %} {% endblock %}</section>
     <script>
-      let countdown = 2;
-      const loadingElement = document.getElementById("loading");
-      document.querySelector("section").style.display = "none";
+      let totalTime = 2000; // total countdown in ms
+      let timeLeft = totalTime;
+      let timerId = null;
+      let lastTick = null;
 
-      const interval = setInterval(() => {
-        if (countdown > 0) {
-          loadingElement.textContent =
-            "Checking redeption status, please hold " + countdown + "s";
-        } else {
-          loadingElement.style.display = "none";
-          document.querySelector("section").style.display = "block";
-        }
-        countdown--;
-      }, 1000);
+      const loadingElement = document.getElementById("loading");
+      const section = document.querySelector("section");
+      section.style.display = "none";
+
+      function formatSeconds(ms) {
+        return Math.ceil(ms / 1000);
+      }
+
+      function updateDisplay() {
+        loadingElement.textContent =
+          "Checking redemption status, please hold " +
+          formatSeconds(timeLeft) +
+          "s";
+      }
+
+      function startCountdown() {
+        if (timerId || timeLeft <= 0) return;
+
+        lastTick = Date.now();
+        updateDisplay();
+
+        timerId = setInterval(() => {
+          const now = Date.now();
+          const elapsed = now - lastTick;
+          lastTick = now;
+          timeLeft -= elapsed;
+
+          if (timeLeft > 0) {
+            updateDisplay();
+          } else {
+            clearInterval(timerId);
+            loadingElement.style.display = "none";
+            section.style.display = "block";
+          }
+        }, 100);
+      }
+
+      function pauseCountdown() {
+        if (!timerId) return;
+        clearInterval(timerId);
+        timerId = null;
+      }
+
+      window.addEventListener("focus", startCountdown);
+      window.addEventListener("blur", pauseCountdown);
+
+      if (document.hasFocus()) {
+        startCountdown();
+      } else {
+        updateDisplay();
+      }
     </script>
   </body>
 </html>

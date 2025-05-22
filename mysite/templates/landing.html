@@ -1,23 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-US">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Free Capybara Plushies!!!1!</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>Welcome</h1>
     <p>128 plushies available!!</p>
-    <p>Redeem your free capybaras below!</p>
+    {% load static %}
+    <img width="420" height="560" src="{% static 'family_pic.jpg' %}" />
+    <p>Redeem your free capybaras below! (no cap)</p>
     <ol>
-        {% for i in range %}
-            <li><a target="_blank" href={{ i }}>
-                Free Capybara (no cap) Click Here
-            </a></li>
-        {% endfor %}
+      {% for i in range %}
+      <li><a target="_blank" href="{{" i }}> Free Capybara Click Here </a></li>
+      {% endfor %}
     </ol>
-</body>
-
+  </body>
 </html>

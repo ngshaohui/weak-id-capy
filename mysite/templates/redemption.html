@@ -4,11 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Redemption</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
+      href="{% static 'bootstrap.min.css' %}"
+    />
   </head>
 
   <body>
-    <div id="loading">Checking redemption status, please hold 3s</div>
-    <section>{% block content %} {% endblock %}</section>
+    <div class="container">
+      {% include 'navbar.html' %}{% block cc %} {% endblock %}
+      <div id="loading">Checking redemption status, please hold 3s</div>
+      <section>{% block content %} {% endblock %}</section>
+    </div>
     <script>
       let totalTime = 2000; // total countdown in ms
       let timeLeft = totalTime;
@@ -67,5 +76,10 @@
         updateDisplay();
       }
     </script>
+    {% load static %}
+    <script
+      integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+      src="{% static 'bootstrap.bundle.min.js' %}"
+    ></script>
   </body>
 </html>

@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<form method="post">
+  {% csrf_token %}
+  <div>
+    <input
+      type="checkbox"
+      id="confirm-reset-box"
+      name="confirm"
+      value="confirm"
+    />
+    <label for="confirm-reset-box">
+      I am sure i want to reset the data for this app
+    </label>
+  </div>
+  <div>
+    <button type="submit" id="reset-btn" class="btn btn-primary" disabled>
+      Confirm
+    </button>
+  </div>
+</form>
+{% load static %}
+<script src="{% static 'reset.js' %}"></script>
+{% endblock %}

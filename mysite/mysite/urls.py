@@ -21,5 +21,6 @@ from . import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', views.landing),
+    path('reset', views.reset),
     path("redemption/capybara/<str:serial>/", views.redemption),
 ]

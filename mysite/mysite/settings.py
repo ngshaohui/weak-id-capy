@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from .utils import get_ip_addresses
+
+PORT = 30003
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +28,15 @@ SECRET_KEY = 'django-insecure-^#&!4rb)*yr&)2e+=2r73u)xt26%^7#y4um-f2f2s3m#%tq@ib
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ["*"]
+
+# hack to get origin
+ip_addresses = list(map(lambda x: f"{x}:{PORT}", get_ip_addresses()))
+CSRF_TRUSTED_ORIGINS = [
+    f"http://localhost:{PORT}",
+    f"http://127.0.0.1:{PORT}",
+    *ip_addresses]
 
 
 # Application definition
@@ -40,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,6 +131,10 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+# for separating html and js
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

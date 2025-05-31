@@ -1,5 +1,12 @@
 # Capybara redemption
 
+## Building and running
+
+```bash
+docker build --rm -f Dockerfile -t capy-redeem:latest .
+docker run --name capy-redeem --rm -p 30003:80 capy-redeem:latest
+```
+
 ## Task
 
 Find out how many capybaras are still available for redemption.

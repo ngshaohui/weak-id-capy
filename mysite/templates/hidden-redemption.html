@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+<h2>Coupon Redemption</h2>
+<form method="POST" class="mt-4">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="coupon_code" class="form-label">Enter your coupon code</label>
+    <input
+      type="text"
+      name="coupon_code"
+      id="coupon_code"
+      class="form-control"
+      placeholder="e.g. blue-apple"
+      required
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Redeem</button>
+</form>
+
+{% if message %}
+<div class="alert alert-{{ status }} mt-4" role="alert">{{ message }}</div>
+{% endif %} {% endblock %}

@@ -17,9 +17,10 @@
       {% include 'navbar.html' %}{% block cc %} {% endblock %}
       <div id="loading">Checking redemption status, please hold 3s</div>
       <section>{% block content %} {% endblock %}</section>
+      <p>{{ nonce | safe }}</p>
     </div>
     <script>
-      let totalTime = 2000; // total countdown in ms
+      const totalTime = {{ timeout }} * 1000; // total countdown in ms
       let timeLeft = totalTime;
       let timerId = null;
       let lastTick = null;
@@ -40,7 +41,7 @@
       }
 
       function startCountdown() {
-        if (timerId || timeLeft <= 0) return;
+        if (timerId || timeLeft <= 0) {};
 
         lastTick = Date.now();
         updateDisplay();

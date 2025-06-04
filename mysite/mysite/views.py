@@ -4,10 +4,12 @@ from django.utils import timezone
 import random
 from redeem.models import Coupon, ManualProtection
 from django.db.models import F
+from django.views.decorators.csrf import csrf_exempt
 from .utils import get_random_coupon_code
 import re
 
-NUM_COUPONS = 128
+NUM_COUPONS = 111
+AVAILABLE_COUPONS = 7
 
 
 def __generate_nonce(length: int = 0) -> str:
@@ -33,14 +35,14 @@ def landing(request):
 
 
 def coupon_status(request, serial):
-    ManualProtection.objects.filter(id=1).update(attempts=F('attempts') + 1)
-    attempts = ManualProtection.objects.get(id=1).attempts
+    # ManualProtection.objects.filter(id=1).update(attempts=F('attempts') + 1)
+    # attempts = ManualProtection.objects.get(id=1).attempts
 
-    timeout = 0
-    if attempts >= 20 and attempts < 100:
-        timeout = 3
-    elif attempts >= 100:
-        timeout = 8
+    # timeout = 1
+    # if attempts >= 20 and attempts < 100:
+    #     timeout = 3
+    # elif attempts >= 100:
+    #     timeout = 8
 
     match = re.search(r'^10(\d+)$', serial)
     if not match:
@@ -61,7 +63,6 @@ def coupon_status(request, serial):
             "success.html",
             {
                 "nonce": nonce,
-                "timeout": timeout,
                 "serial": serial,
                 "code": coupon.code
             }
@@ -72,13 +73,13 @@ def coupon_status(request, serial):
             "failure.html",
             {
                 "nonce": nonce,
-                "timeout": timeout,
                 "serial": serial,
                 "code": coupon.code
             }
         )
 
 
+@csrf_exempt
 def redeem(request):
     message = None
     status = None
@@ -111,15 +112,21 @@ def seed():
     Coupon.objects.all().delete()
     ManualProtection.objects.all().delete()
 
-    coupon_codes = get_random_coupon_code(128)
-    # Randomly select 5 codes to be marked as unavailable (status=False)
-    unavailable_codes = set(random.sample(coupon_codes, 5))
+    coupon_codes = get_random_coupon_code(NUM_COUPONS)
+    # Randomly select codes (excluding first) to be marked as unavailable (status=False)
+    random_indexes = random.sample(
+        range(1, NUM_COUPONS),
+        AVAILABLE_COUPONS - 1,
+    )
+    # always include first one
+    random_indexes.append(0)
+    unavailable_indexes = set(random_indexes)
 
     for idx, code in enumerate(coupon_codes, start=1):
         Coupon.objects.create(
             id=idx,
             code=code,
-            status=(code not in unavailable_codes),
+            status=(idx in unavailable_indexes),
             updated_at=timezone.now(),
         )
 
@@ -129,10 +136,11 @@ def seed():
     )
     # this is for debug
     print("seeded for")
-    for code in unavailable_codes:
-        print(code)
+    for idx in unavailable_indexes:
+        print(coupon_codes[idx])
 
 
+@csrf_exempt
 def reset(request):
     # this reset does nothing
     if request.method == "POST":

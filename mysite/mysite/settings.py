@@ -32,7 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 # hack to get origin
-ip_addresses = list(map(lambda x: f"{x}:{PORT}", get_ip_addresses()))
+ip_addresses = list(map(lambda x: f"http://{x}:{PORT}", get_ip_addresses()))
 CSRF_TRUSTED_ORIGINS = [
     f"http://localhost:{PORT}",
     f"http://127.0.0.1:{PORT}",

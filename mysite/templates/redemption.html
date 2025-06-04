@@ -20,7 +20,12 @@
       <p>{{ nonce | safe }}</p>
     </div>
     <script>
-      const totalTime = {{ timeout }} * 1000; // total countdown in ms
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+          location.reload();
+        }
+      });
+      let totalTime = 3000; // total countdown in ms
       let timeLeft = totalTime;
       let timerId = null;
       let lastTick = null;
@@ -41,7 +46,7 @@
       }
 
       function startCountdown() {
-        if (timerId || timeLeft <= 0) {};
+        if (timerId || timeLeft <= 0) return;
 
         lastTick = Date.now();
         updateDisplay();

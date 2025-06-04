@@ -4,7 +4,7 @@
 
 ```bash
 docker build --rm -f Dockerfile -t capy-redeem:latest .
-docker run --name capy-redeem --rm -p 30003:80 capy-redeem:latest
+docker run --name capy-redeem --rm -p 30003:30003 capy-redeem:latest
 ```
 
 ## Task

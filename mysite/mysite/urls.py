@@ -21,7 +21,7 @@ from . import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', views.landing),
-    path('reset', views.reset),
+    path('reset/', views.reset),
     path("coupon-status/capybara/<str:serial>/", views.coupon_status),
     path('redemption', views.redeem),
 ]

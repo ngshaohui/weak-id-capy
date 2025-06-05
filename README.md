@@ -9,16 +9,29 @@ docker run --name capy-redeem --rm -p 30003:30003 capy-redeem:latest
 
 ## Task
 
-Find out how many capybaras are still available for redemption.
+There are 2 tasks.
 
-## Detering manual checks
+1. Find out what are the coupon codes that can still be redeemed.
 
-Use JS to add an artificial setTimeout counter of 2s
+2. Redeem the coupon codes from the hidden redemption page
 
-## Hard mode
+### Detering manual checks
 
-Randomly put 0 width characters between letters of a word to make it impossible to grep
+There is an artificial JS setInterval countdown timer before rendering the page to discourage people from manually visiting each page.
 
-## TODO
+### Hard mode (not implemented)
 
-create hidden page for capy redemption
+1. Randomly put 0 width characters between letters of a word to make it impossible to grep
+2. Only give one page and let them figure out the rest of the ID sequences
+
+## Walkthrough
+
+Visit some pages to figure out the URL structure
+
+ID number starts from 100001, runs sequentially until 100111
+
+The first one will always be an available coupon code
+
+Need to use the intruder to run from 100001 through 100111 using a number payload, and find all the pages with "available" in the page text
+
+Hidden redemption page can be found by triggering the Django debug page

@@ -2,6 +2,11 @@
 <form method="post">
   {% csrf_token %}
   <div>
+    <p>
+      Warning: resetting the app will regenerate new coupon codes, invalidating
+      previously found ones
+    </p>
+    <p>It also resets the countdown timer for loading each redemption page</p>
     <input
       type="checkbox"
       id="confirm-reset-box"

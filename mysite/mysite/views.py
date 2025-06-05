@@ -39,8 +39,10 @@ def coupon_status(request, serial):
     attempts = ManualProtection.objects.get(id=1).attempts
 
     timeout = 1
-    if attempts >= 20 and attempts < 100:
+    if attempts >= 20 and attempts < 60:
         timeout = 3
+    elif attempts >= 60 and attempts < 100:
+        timeout = 5
     elif attempts >= 100:
         timeout = 8
 

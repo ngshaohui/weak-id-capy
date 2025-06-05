@@ -35,24 +35,31 @@ def landing(request):
 
 
 def coupon_status(request, serial):
-    # ManualProtection.objects.filter(id=1).update(attempts=F('attempts') + 1)
-    # attempts = ManualProtection.objects.get(id=1).attempts
+    ManualProtection.objects.filter(id=1).update(attempts=F('attempts') + 1)
+    attempts = ManualProtection.objects.get(id=1).attempts
 
-    # timeout = 1
-    # if attempts >= 20 and attempts < 100:
-    #     timeout = 3
-    # elif attempts >= 100:
-    #     timeout = 8
+    timeout = 1
+    if attempts >= 20 and attempts < 100:
+        timeout = 3
+    elif attempts >= 100:
+        timeout = 8
 
+    # error handling
     match = re.search(r'^10(\d+)$', serial)
     if not match:
-        # TODO test
         return render(
             request,
             "missing.html",
             {"serial": serial}
         )
-    coupon = Coupon.objects.get(id=match.group(1))
+    try:
+        coupon = Coupon.objects.get(id=match.group(1))
+    except Coupon.DoesNotExist:
+        return render(
+            request,
+            "missing.html",
+            {"serial": serial}
+        )
 
     # prevent sorting by length
     nonce = __generate_nonce()
@@ -64,7 +71,8 @@ def coupon_status(request, serial):
             {
                 "nonce": nonce,
                 "serial": serial,
-                "code": coupon.code
+                "code": coupon.code,
+                "timeout": timeout,
             }
         )
     else:
@@ -74,7 +82,8 @@ def coupon_status(request, serial):
             {
                 "nonce": nonce,
                 "serial": serial,
-                "code": coupon.code
+                "code": coupon.code,
+                "timeout": timeout,
             }
         )
 
@@ -122,11 +131,11 @@ def seed():
     random_indexes.append(0)
     unavailable_indexes = set(random_indexes)
 
-    for idx, code in enumerate(coupon_codes, start=1):
+    for idx, code in enumerate(coupon_codes):
         Coupon.objects.create(
-            id=idx,
+            id=idx + 1,  # 1 based indexing
             code=code,
-            status=(idx in unavailable_indexes),
+            status=(idx not in unavailable_indexes),
             updated_at=timezone.now(),
         )
 

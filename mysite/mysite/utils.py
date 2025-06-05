@@ -10,7 +10,12 @@ EMOTIONS = [
     "surprised",
     "disgusted",
     "confident",
-    "nervous"
+    "nervous",
+    "bold",
+    "engaged",
+    "excited",
+    "muted",
+    "worried",
 ]
 
 COLORS = [
@@ -21,7 +26,9 @@ COLORS = [
     "purple",
     "orange",
     "pink",
-    "brown"
+    "brown",
+    "teal",
+    "maroon",
 ]
 
 ANIMALS = [

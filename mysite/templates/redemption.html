@@ -25,7 +25,7 @@
           location.reload();
         }
       });
-      let totalTime = 3000; // total countdown in ms
+      let totalTime = {{ timeout }} * 1000; // total countdown in ms
       let timeLeft = totalTime;
       let timerId = null;
       let lastTick = null;

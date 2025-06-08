@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 
 <h1>Welcome</h1>
-<p>{{ available }} out of 128 plushies available!!</p>
+<p>{{ available }} out of {{ total_count }} plushies available!!</p>
 {% if available == 0 %}
 <div class="alert alert-success mt-4" role="alert">
   All the plushies have been redeemed 🥀🥀

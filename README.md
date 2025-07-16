@@ -2,6 +2,28 @@
 
 ## Building and running
 
+### Development server
+
+A local development can be set up to test and develop the application.
+
+The virtual environment only needs to be set up the first time round.
+
+```bash
+python -m venv venv # set up virtual environment
+venv\Scripts\activate # activate virtual environment
+pip install -r requirements.txt # install requirements
+```
+
+Once the set up has been completed, start the development server.
+
+```bash
+python mysite/manage.py runserver # run development server
+```
+
+### Dockerfile
+
+A dockerfile has been provided which provides as close as possible of an experience to that of the CT environment.
+
 ```bash
 docker build --rm -f Dockerfile -t capy-redeem:latest .
 docker run --name capy-redeem --rm -p 30003:30003 capy-redeem:latest
